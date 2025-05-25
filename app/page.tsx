@@ -57,7 +57,7 @@ export default function PortfolioManager() {
           className="text-center mb-12"
         >
           <h1 className="text-6xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
-           JR  Portfolio Updater
+           JOEL  Portfolio Updater
           </h1>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
             Everything will be Under The Code except the Life           </p>
