@@ -181,22 +181,35 @@ export default function ProjectsForm() {
     setEditingId(project.id || null)
   }
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id?: string) => {
+    if (!id) return
     if (!confirm("Are you sure you want to delete this project?")) return
 
+    setLoading(true)
     try {
       await axios.delete(`https://portfolio-back-cwzt.onrender.com/api/projects/${id}`)
-      setProjects(projects.filter((project) => project.id !== id))
+      alert("Project deleted successfully!") // Alert on success
       toast({
         title: "Success",
         description: "Project deleted successfully",
       })
+      // Refresh the list from backend
+      const response = await axios.get("https://portfolio-back-cwzt.onrender.com/api/projects")
+      const projectsData = Array.isArray(response.data.data)
+        ? response.data.data
+        : Array.isArray(response.data)
+        ? response.data
+        : []
+      setProjects(projectsData)
     } catch (error) {
+      alert("Failed to delete project.") // Alert on failure
       toast({
         title: "Error",
         description: "Failed to delete project",
         variant: "destructive",
       })
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -239,7 +252,7 @@ export default function ProjectsForm() {
                           type="button"
                           variant="outline"
                           size="sm"
-                          onClick={() => project.id && handleDelete(project.id)}
+                          onClick={() => handleDelete(project.id || project._id)}
                           className="text-red-400 border-red-400/50 hover:bg-red-400/10"
                         >
                           Delete
